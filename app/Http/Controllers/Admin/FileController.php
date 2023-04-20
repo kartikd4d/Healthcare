@@ -13,6 +13,8 @@ class FileController extends Controller
     {
         try {
             // return ["result"=>"data has been created"];
+        //   $path= $req->file('file')->store('datanew');
+        //   return["result"=>"$path"];
             $data = new File;
             $data->product_id = $req->product_id;
             $data->file_name = $req->file_name;

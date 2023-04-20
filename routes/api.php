@@ -32,12 +32,20 @@ Route::post('/product',[App\Http\Controllers\Admin\ProductController::class,'cre
 Route::get('/productlist',[App\Http\Controllers\Admin\ProductController::class,'productlist']);
 Route::put('/productedit',[App\Http\Controllers\Admin\ProductController::class,'productedit']);
 
+Route::get('/book-call-list',[App\Http\Controllers\Admin\BookcallController::class,'Bookcalllist']);
+
+
 Route::post('/role',[App\Http\Controllers\Admin\RoleController::class,'Createrole']);
 
 Route::post('/rolepermission',[App\Http\Controllers\Admin\RolepermissionController::class,'Createrolepermission']);
 
 
 Route::post('/file',[App\Http\Controllers\Admin\FileController::class,'createfile']);
+
+
+Route::post('/bookcall',[App\Http\Controllers\Client\BookCallController::class,'Bookcall']);
+Route::post('/businessinfo',[App\Http\Controllers\Client\BusinessinfoController::class,'Createinfo']);
+
 
 
 
@@ -49,6 +57,8 @@ Route::post('/file',[App\Http\Controllers\Admin\FileController::class,'createfil
 
 // common
 Route::post('/payment',[App\Http\Controllers\common\PaymentController::class,'payment']);
+Route::post('/guids',[App\Http\Controllers\common\GuidsController::class,'GuidsCreate']);
+
 
 
 

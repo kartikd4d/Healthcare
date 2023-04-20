@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string("notes");
             $table->date("date");
             $table->time("time");
+            $table->enum("status",['true','false']);
             $table->timestamps();
         });
     }
