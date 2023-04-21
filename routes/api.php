@@ -42,6 +42,9 @@ Route::post('/rolepermission',[App\Http\Controllers\Admin\RolepermissionControll
 
 Route::post('/file',[App\Http\Controllers\Admin\FileController::class,'createfile']);
 
+Route::post('/document',[App\Http\Controllers\Admin\DocumentController::class,'CreateDocument']);
+
+
 
 
 // Client

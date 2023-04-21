@@ -10,17 +10,19 @@ class ProductController extends Controller
     public function Productlist(){
         try{
       $data= product::all();
-      return isset($data);
-      if($data){
+      $result=count($data);
+
+      if($result > 0){
         return response()->json([
             "message"=>'module list show',
-            "data"=>null
+            "data"=>$data
         ],200);
       }else
       {
         return response()->json([
-            "message"=>"something wrong"
-        ],400);
+            "message"=>"no record",
+            "data"=>null
+           ],400);
 
       }
         }
