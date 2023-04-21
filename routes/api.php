@@ -43,10 +43,15 @@ Route::post('/rolepermission',[App\Http\Controllers\Admin\RolepermissionControll
 Route::post('/file',[App\Http\Controllers\Admin\FileController::class,'createfile']);
 
 
+
+// Client
 Route::post('/bookcall',[App\Http\Controllers\Client\BookCallController::class,'Bookcall']);
+
 Route::post('/businessinfo',[App\Http\Controllers\Client\BusinessinfoController::class,'Createinfo']);
 
+Route::get('/filelist',[App\Http\Controllers\Client\FileController::class,'FileList']);
 
+Route::get('/product-list',[App\Http\Controllers\Client\ProductController::class,'Productlist']);
 
 
 
