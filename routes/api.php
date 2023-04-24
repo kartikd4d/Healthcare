@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\common\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,18 +14,20 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/login',[App\Http\Controllers\LoginController::class,'login']);
-// Route::post('/create',[App\Http\Controllers\TestController::class,'createuser']);
-// Route::put('/update',[App\Http\Controllers\TestController::class,'updateuser']);
-// Route::get('/search',[App\Http\Controllers\TestController::class,'searchuser']);
-// Route::delete('/delete',[App\Http\Controllers\TestController::class,'delete']);
-// Route::post('/upload',[App\Http\Controllers\TestController::class,'upload']);
+Route::post('/login',[LoginController::class,'login']);
+Route::get('/logout',[LoginController::class,'logout']);
+
+
 
 // Admin
-Route::post('/user',[App\Http\Controllers\Admin\UserController::class,'createuser']);
-Route::get('/listuser',[App\Http\Controllers\Admin\UserController::class,'listuser']);
-Route::put('/updateuser',[App\Http\Controllers\Admin\UserController::class,'updateuser']);
-Route::put('/deleteuser',[App\Http\Controllers\Admin\UserController::class,'deleteuser']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/user',[App\Http\Controllers\Admin\UserController::class,'createuser']);
+    Route::get('/listuser',[App\Http\Controllers\Admin\UserController::class,'listuser']);
+    Route::put('/updateuser',[App\Http\Controllers\Admin\UserController::class,'updateuser']);
+    Route::put('/deleteuser',[App\Http\Controllers\Admin\UserController::class,'deleteuser']);
+});
+
+
 
 Route::post('/module',[App\Http\Controllers\Admin\ModuleController::class,'createmodule']);
 
@@ -36,24 +39,15 @@ Route::get('/book-call-list',[App\Http\Controllers\Admin\BookcallController::cla
 
 
 Route::post('/role',[App\Http\Controllers\Admin\RoleController::class,'Createrole']);
-Route::get('/role-list',[App\Http\Controllers\Admin\RoleController::class,'rolelist']);
-
 
 Route::post('/rolepermission',[App\Http\Controllers\Admin\RolepermissionController::class,'Createrolepermission']);
 
 
 Route::post('/file',[App\Http\Controllers\Admin\FileController::class,'createfile']);
 
-Route::post('/document',[App\Http\Controllers\Admin\DocumentController::class,'CreateDocument']);
-
-
 
 
 // Client
-Route::post('/new-registration',[App\Http\Controllers\Client\CreateuserController::class,'createuser']);
-Route::post('/edit-registration',[App\Http\Controllers\Client\CreateuserController::class,'updateuser']);
-
-
 Route::post('/bookcall',[App\Http\Controllers\Client\BookCallController::class,'Bookcall']);
 
 Route::post('/businessinfo',[App\Http\Controllers\Client\BusinessinfoController::class,'Createinfo']);
@@ -62,13 +56,7 @@ Route::get('/filelist',[App\Http\Controllers\Client\FileController::class,'FileL
 
 Route::get('/product-list',[App\Http\Controllers\Client\ProductController::class,'Productlist']);
 
-Route::get('/module-list',[App\Http\Controllers\Client\ProductController::class,'Modulelist']);
-
-Route::get('/checklist-Ndis',[App\Http\Controllers\Client\ProductController::class,'Checklist']);
-
-
-
-
+Route::post('/checklist/details',[App\Http\Controllers\Client\ChecklistController::class,'Checklist']);
 
 
 
@@ -79,10 +67,6 @@ Route::get('/checklist-Ndis',[App\Http\Controllers\Client\ProductController::cla
 // common
 Route::post('/payment',[App\Http\Controllers\common\PaymentController::class,'payment']);
 Route::post('/guids',[App\Http\Controllers\common\GuidsController::class,'GuidsCreate']);
-
-
-
-
 
 
 

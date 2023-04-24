@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -67,6 +69,33 @@ class LoginController extends Controller
                 'message' => 'login request failed',
                 'error' => $ex->getMessage(),
             ], 500);
+        }
+    }
+    public function logout(Request $request)
+    {
+        try
+        {
+            $revoke = DB::table('personal_access_tokens')->where('tokenable_id',$request->id)->delete();
+            
+           return  $revoke ?  response([
+            "msg"=>"Successfully Logout",
+            "data"=>[],
+            "code"=>200
+           ]) :
+           response([
+            "msg"=>"User is not active",
+            "data"=>[],
+            "code"=>200
+           ]);
+
+        }
+        catch(\Exception $ex)
+        {
+            return response([
+                "msg"=>$ex->getMessage(),
+                "data"=>[],
+                "code"=>404
+            ]);
         }
     }
 }
