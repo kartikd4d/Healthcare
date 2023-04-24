@@ -36,6 +36,8 @@ Route::get('/book-call-list',[App\Http\Controllers\Admin\BookcallController::cla
 
 
 Route::post('/role',[App\Http\Controllers\Admin\RoleController::class,'Createrole']);
+Route::get('/role-list',[App\Http\Controllers\Admin\RoleController::class,'rolelist']);
+
 
 Route::post('/rolepermission',[App\Http\Controllers\Admin\RolepermissionController::class,'Createrolepermission']);
 
@@ -48,6 +50,10 @@ Route::post('/document',[App\Http\Controllers\Admin\DocumentController::class,'C
 
 
 // Client
+Route::post('/new-registration',[App\Http\Controllers\Client\CreateuserController::class,'createuser']);
+Route::post('/edit-registration',[App\Http\Controllers\Client\CreateuserController::class,'updateuser']);
+
+
 Route::post('/bookcall',[App\Http\Controllers\Client\BookCallController::class,'Bookcall']);
 
 Route::post('/businessinfo',[App\Http\Controllers\Client\BusinessinfoController::class,'Createinfo']);
@@ -55,6 +61,13 @@ Route::post('/businessinfo',[App\Http\Controllers\Client\BusinessinfoController:
 Route::get('/filelist',[App\Http\Controllers\Client\FileController::class,'FileList']);
 
 Route::get('/product-list',[App\Http\Controllers\Client\ProductController::class,'Productlist']);
+
+Route::get('/module-list',[App\Http\Controllers\Client\ProductController::class,'Modulelist']);
+
+Route::get('/checklist-Ndis',[App\Http\Controllers\Client\ProductController::class,'Checklist']);
+
+
+
 
 
 

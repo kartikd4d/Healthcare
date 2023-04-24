@@ -12,7 +12,7 @@ class FileController extends Controller
     {
         try {
             $data = File::all();
-            return $data; 
+            // return $data; 
             if ($data) {
                 return response()->json([
                     "message" => "record show on screen",

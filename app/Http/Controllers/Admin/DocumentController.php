@@ -11,30 +11,42 @@ class DocumentController extends Controller
 {
     public function CreateDocument(Request $request)
     {
-        $fill = New Documents;
-        $fill->product = "SSSSSSSSSSSSSSSSSSSSSSS";
-        $fill->file = "SSSSSSSSSSSSSSSSSSSSSSS";
-        $result= $fill->save();
-       return $result;
-        // return $request->has("f");
-        // $data= $request->filenames->store("public/data") ;
-        // return ["message"=>$data];
+        $files= New Documents;
+        $uploadFileDir = public_path() . '/images/';
+
+        $banner = new Documents();
+            if ($request->hasfile('filenames'))
+            {
+                $newFileName = $_FILES["filenames"]["name"];
+                $fileTmpPath = $_FILES["filenames"]["tmp_name"];
+                $dest_path = $uploadFileDir . $newFileName;
+
+                if (move_uploaded_file($fileTmpPath, $dest_path))
+                {
+                    $files->filenames = '/public/images/'.$newFileName;
+                }
+            } 
+
+     $result= $files->save();
+
+        if ($result){
+            return ["message"=>"successfull"];
+        }else{
+            return["message"=>"failed"];
+        }
+
+
+
         try {
-            $data = [];
+
             // return $request->hasFile();
             $this->validate($request, [
                 'filenames' => 'required',
                 'filenames.*' => 'mimes:doc,pdf,docx,zip,png,jpge,jpg'
             ]);
 
-            if ($request->hasfile('filenames')) {
-                $files = $request->filenames;
-               $data= $files->store("public/upload");
            
-          
-           
-        } 
-        
+
 
         } catch (\Exception) {
             return response()->json([

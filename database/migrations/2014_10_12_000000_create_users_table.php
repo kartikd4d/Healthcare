@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->integer("mobile_number");
+            $table->bigInteger("mobile_number");
             $table->foreignid('role_id')->nullable()->constrained()->cascadeOnDelete();
             $table->integer('status');
             $table->timestamps();
