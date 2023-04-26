@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
-            $table->foreignid('product_id')->nullable()->constrained()->cascadeOnDelete(); 
-            $table->string('modulename');
+            $table->foreignid('module_id')->nullable()->constrained()->cascadeOnDelete(); 
+            $table->string('module_name');
+            $table->enum('module_status',["true","false"]);
             $table->timestamps();
         });
     }

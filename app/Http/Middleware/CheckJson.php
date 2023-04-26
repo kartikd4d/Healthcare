@@ -18,7 +18,8 @@ class CheckJson
     {
         if(!$request->method('post') or !$request->method('put') or !$request->method('patch')) return $next($request);
 
-        if($request->header('Content-Type') == "application/json" and $request->header('Accept') == "application/json")
+        // $request->header('Content-Type') == "application/json" and
+        if( $request->header('Accept') == "application/json")
         {
             return $next($request);
         }

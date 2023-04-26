@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string("product");
-            $table->string("module");
+            $table->foreignId("module_id")->nullable();
             $table->string("document_title");
             $table->string("description");
             $table->string("file");

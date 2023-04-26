@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('files', function (Blueprint $table) {
+        Schema::create('module_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignid('product_id')->nullable()->constrained()->cascadeOnDelete(); 
+            $table->foreignid('module_id')->nullable()->constrained()->cascadeOnDelete(); 
             $table->string('file_name');
             $table->decimal('file_size');
             $table->string('file_path');
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('files');
+        Schema::dropIfExists('module_files');
     }
 };
