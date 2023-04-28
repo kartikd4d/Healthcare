@@ -11,6 +11,7 @@ class ModuleFileController extends Controller
     public function ModuleFile(Request $req)
     {
         try {
+            
             $data = new Module_File;
             $data->module_id = $req->module_id;
             // $data->file_name = $req->file_name;

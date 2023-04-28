@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Module;
-
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,13 +12,21 @@ class ModuleController extends Controller
     function createmodule(Request $req)
     {
         
-        try {  $this->validate($req, [
+        try { 
+            
+            // $this->validate($req, [
+       $validator = Validator::make($req->all(), [
             'product_id' => 'required',
             'module_name'=>'required',
             'module_status'=>'required'
-
           
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Bad or invalid request',
+                'errors' => $validator->errors(),
+            ], 400);
+        }
             //   return $req->all();
             $data = new Module;
             $data->product_id = $req->product_id;
@@ -74,6 +82,18 @@ class ModuleController extends Controller
     function Moduleedit(Request $req)
     {
         try {
+            $validator = Validator::make($req->all(), [
+                'product_id' => 'required',
+                'module_name'=>'required',
+                'module_status'=>'required'
+              
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Bad or invalid request',
+                    'errors' => $validator->errors(),
+                ], 400);
+            }
                 $user= Module:: find($req->id);
                 $user->product_name = $req->product_name;
                 $user->product_status = $req->product_status;

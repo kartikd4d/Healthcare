@@ -5,20 +5,35 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
   function createuser(Request $req)
   {
+    
     try {
-      //   return $req->all();
+      $validator = Validator::make($req->all(), [
+        'name' => 'required',
+        'email' => 'required | unique:users',
+        'password' => 'required',
+        'mobile_number' => 'required',
+        'role_id' => 'required',
+       
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'message' => 'Bad or invalid request',
+            'errors' => $validator->errors(),
+        ], 400);
+    }
       $user = new User;
       $user->name = $req->name;
       $user->email = $req->email;
       $user->password = bcrypt($req->password);
       $user->mobile_number = $req->mobile_number;
       $user->role_id = $req->role_id;
-      $user->role_name = $req->role_name;
       $user->status = $req->status;
       $result = $user->save();
       if ($result) {
@@ -33,8 +48,6 @@ class UserController extends Controller
         ], 400);
       }
     } catch (\Exception $ex) {
-
-      // Log::error('Login request failed', ['error' => $ex->getMessage()]);
       return response()->json([
         'message' => 'create user request failed',
         'error' => $ex->getMessage(),
@@ -70,10 +83,29 @@ class UserController extends Controller
   function updateuser(Request $req)
   {
     try {
+      $validator = Validator::make($req->all(), [
+        'name' => 'required',
+        'email' => 'required | unique:users',
+        'password' => 'required',
+        'mobile_number' => 'required',
+        'role_id' => 'required',
+       
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'message' => 'Bad or invalid request',
+            'errors' => $validator->errors(),
+        ], 400);
+    }
       $id = $req->id;
       $user = User::find($id);
       $user->name = $req->name;
       $user->email = $req->email;
+      $user->password = bcrypt($req->password);
+      $user->mobile_number = $req->mobile_number;
+      $user->role_id = $req->role_id;
+      $user->status = $req->status;
       $result = $user->save();
       if ($result) {
         return response()->json([
@@ -95,15 +127,15 @@ class UserController extends Controller
 
   }
 
-  function deleteuser(Request $req)
+  function deleteuser($id)
   {
     try {
-      $id = $req->id;
       $user = User::find($id);
+      // return $user;
       $result = $user->delete();
       if ($result) {
         return response()->json([
-          "message" => "the record has deleted",
+          "message" => "the record has deleted $id",
           'data' => $result,
         ], 200);
       } else {
@@ -115,7 +147,7 @@ class UserController extends Controller
 
     } catch (\Exception $ex) {
       return response()->json([
-        'message' => 'delete request failed',
+        'message' => 'delete request failed' ,
         'error' => $ex->getMessage(),
       ], 500);
     }

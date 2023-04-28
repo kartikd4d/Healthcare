@@ -22,11 +22,12 @@ Route::get('/logout',[LoginController::class,'logout']);
 // Admin
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user',[App\Http\Controllers\Admin\UserController::class,'createuser']);
-    Route::get('/listuser',[App\Http\Controllers\Admin\UserController::class,'listuser']);
-    Route::put('/updateuser',[App\Http\Controllers\Admin\UserController::class,'updateuser']);
-    Route::put('/deleteuser',[App\Http\Controllers\Admin\UserController::class,'deleteuser']);
+    Route::get('/user/list',[App\Http\Controllers\Admin\UserController::class,'listuser']);
+    Route::put('/user/update',[App\Http\Controllers\Admin\UserController::class,'updateuser']);
+    Route::delete('/user/delete/{id}',[App\Http\Controllers\Admin\UserController::class,'deleteuser']);
 });
 
+Route::get('/admin/dashboard',[App\Http\Controllers\Admin\DashboardController::class,'AdminDashboard']);
 
 Route::post('/document',[App\Http\Controllers\Admin\DocumentController::class,'CreateDocument']);
 
@@ -42,6 +43,7 @@ Route::delete('/product/delete/{id}',[App\Http\Controllers\Admin\ProductControll
 
 Route::get('/book-call-list',[App\Http\Controllers\Admin\BookcallController::class,'Bookcalllist']);
 
+Route::post('/purchasemodule',[App\Http\Controllers\Admin\PurchaseModuleController::class,'PurchaseItem']);
 
 Route::post('/role',[App\Http\Controllers\Admin\RoleController::class,'Createrole']);
 
@@ -53,13 +55,15 @@ Route::post('/file',[App\Http\Controllers\Admin\FileController::class,'createfil
 
 
 // Client
+Route::post('/new-registration',[App\Http\Controllers\Client\CreateuserController::class,'createuser']);
+
 Route::post('/bookcall',[App\Http\Controllers\Client\BookCallController::class,'Bookcall']);
 
 Route::post('/businessinfo',[App\Http\Controllers\Client\BusinessinfoController::class,'Createinfo']);
 
 Route::get('/filelist',[App\Http\Controllers\Client\FileController::class,'FileList']);
 
-Route::get('/product-list',[App\Http\Controllers\Client\ProductController::class,'Productlist']);
+// Route::get('/product-list',[App\Http\Controllers\Client\ProductController::class,'Productlist']);
 
 Route::post('/checklist/details',[App\Http\Controllers\Client\ChecklistController::class,'Checklist']);
 Route::post('/services/qualification',[App\Http\Controllers\Client\ChecklistController::class,'ServiceQualification']);

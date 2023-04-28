@@ -46,16 +46,16 @@ class ProductController extends Controller
     function Productlist(Request $req)
     {
         try {
-            // $data = Product::all();
+            $data = Product::all();
             $order = $req->order;
             $sort = $req->sort;
             $limit = $req->limit;
             $page = $req->page && $req->page > 0 ? $req->page : 1;
             $skip = ($page - 1) * $limit;
-            $data = Product::join("modules", "products.id", "=", "modules.product_id")->select('products.product_name', 'modules.module_name', DB::raw('count(modules.product_id) as total_module'))->groupBy("modules.product_id")->paginate(15)->get();
+            $data = Product::join("modules", "products.id", "=", "modules.product_id")->select('products.product_name', 'modules.module_name', DB::raw('count(modules.product_id) as total_module'))->groupBy("modules.product_id")->get();
 
             $result = $data->skip($skip)->take($limit)->orderBy($sort, $order)->get();
-            return $result;
+            // return $result;
             if ($result) {
                 return response()->json([
                     "message" => "Product show successfully",
@@ -125,18 +125,6 @@ class ProductController extends Controller
 
     }
 
-// public function Productlist(){
-//     try{
 
-
-//     }catch (\Exception $ex) {
-
-//         return response()->json([
-//             'message' => 'Product delete request failed',
-//             'error' => $ex->getMessage(),
-//         ], 500);
-//     }
-
-// }
 
 }
