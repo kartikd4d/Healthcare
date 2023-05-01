@@ -6,19 +6,25 @@ use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
     function Createproduct(Request $req)
     {
         try {
-            $this->validate($req, [
+            $validator = Validator::make($req->all(), [
                 'product_name' => 'required',
                 'product_status' => 'required'
 
             ]);
 
-
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Bad or invalid request',
+                    'errors' => $validator->errors(),
+                ], 400);
+            }
             //   return $req->all();
             $data = new Product;
             $data->product_name = $req->product_name;
@@ -52,14 +58,20 @@ class ProductController extends Controller
             $limit = $req->limit;
             $page = $req->page && $req->page > 0 ? $req->page : 1;
             $skip = ($page - 1) * $limit;
-            $data = Product::join("modules", "products.id", "=", "modules.product_id")->select('products.product_name', 'modules.module_name', DB::raw('count(modules.product_id) as total_module'))->groupBy("modules.product_id")->get();
+            $data = Product::leftjoin("modules", "products.id", "=", "modules.product_id")->select('products.product_name', 'products.product_status', 'products.id as products_id', 'modules.module_name', DB::raw('count(modules.product_id) as total_module'))->groupBy("products.id");
+            $count = $data->get()->count();
 
             $result = $data->skip($skip)->take($limit)->orderBy($sort, $order)->get();
-            // return $result;
+            // $result['count']=$count;
+
             if ($result) {
                 return response()->json([
                     "message" => "Product show successfully",
+                    "product_count" => $count,
                     'data' => $result,
+                    'code' => 200,
+                    'success' => true,
+
                 ], 200);
             } else {
                 return response()->json([
@@ -75,20 +87,38 @@ class ProductController extends Controller
         }
     }
 
-    function Productedit(Request $req)
+    function Productupdate(Request $req)
     {
         try {
-            $user = Product::find($req->id);
+            $validator = Validator::make($req->all(), [
+                'product_name' => 'required',
+                'product_status' => 'required',
+                'products_id' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Bad or invalid request',
+                    'errors' => $validator->errors(),
+                ], 400);
+            }
+            $user = Product::find($req->products_id);
             $user->product_name = $req->product_name;
             $user->product_status = $req->product_status;
             $result = $user->save();
 
             if ($result) {
-                return $user->all();
+                return response()->json([
+                    "message" => "Product update successfully",
+                    "data" => [],
+                    "success" => true
+                ], 200);
             } else {
-                return [
-                    "result" => "error to update data "
-                ];
+                return response()->json([
+                    "message" => "Product update successfully",
+                    "data" => null,
+                    "success" => false
+                ], 400);
             }
         } catch (\Exception $ex) {
             return response()->json([

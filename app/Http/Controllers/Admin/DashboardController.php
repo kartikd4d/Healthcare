@@ -13,16 +13,22 @@ class DashboardController extends Controller
 {
     public function AdminDashboard()
     {
-        $product = Product::leftjoin("modules", "products.id", "=", "modules.product_id")->select('products.product_name', 'modules.module_name', DB::raw('count(modules.product_id) as total_module'))->groupBy("modules.product_id")->get();
-      
+        $product = Product::leftjoin("modules", "products.id", "=", "modules.product_id")->select('products.product_name','products.id as products.id', 'modules.module_name', DB::raw('count(modules.product_id) as total_module'))->groupBy("products.id")->get();
+        $product_count= Product::get()->count();
+        $product_active= DB::table('products')->where('product_status', 'true')->count();
         $user = User::all();
-        $user_count = count($user);
         $call_list=Bookcall::all();
+
+        $data['total_user']=$user->count();
+        $data['product']=$product;
+        $data['product_count']=$product_count;
+        $data['product_active']=$product_active;
+        $data['call_list']=$call_list;
         return response()->json([
-            "product" => $product,
-            "user_count"=> $user_count,
-            "user" => $user,
-           "call_list"=>$call_list
+            "message" => " show successfully",
+            'data' => $data,
+            'code' => 200,
+            'success' => true,
         ]);
 
 

@@ -32,12 +32,18 @@ Route::get('/admin/dashboard',[App\Http\Controllers\Admin\DashboardController::c
 Route::post('/document',[App\Http\Controllers\Admin\DocumentController::class,'CreateDocument']);
 
 Route::post('/module',[App\Http\Controllers\Admin\ModuleController::class,'createmodule']);
+Route::get('/module/list',[App\Http\Controllers\Admin\ModuleController::class,'Modulelist']);
+Route::get('/module/edit',[App\Http\Controllers\Admin\ModuleController::class,'Moduleedit']);
+Route::put('/module/update',[App\Http\Controllers\Admin\ModuleController::class,'Moduleupdate']);
+Route::get('/module/delete/{id}',[App\Http\Controllers\Admin\ModuleController::class,'DeleteModule']);
+
+
 
 Route::post('/module/file',[App\Http\Controllers\Admin\ModuleFileController::class,'ModuleFile']);
 
 Route::post('/product',[App\Http\Controllers\Admin\ProductController::class,'Createproduct']);
 Route::get('/product/list',[App\Http\Controllers\Admin\ProductController::class,'Productlist']);
-Route::put('/product/edit',[App\Http\Controllers\Admin\ProductController::class,'Productedit']);
+Route::put('/product/update',[App\Http\Controllers\Admin\ProductController::class,'Productupdate']);
 Route::delete('/product/delete/{id}',[App\Http\Controllers\Admin\ProductController::class,'DeleteProduct']);
 
 
