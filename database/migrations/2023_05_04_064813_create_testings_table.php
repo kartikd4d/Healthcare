@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('documents', function (Blueprint $table) {
+        Schema::create('testings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("module_id")->nullable();
-            $table->string("document_title");
-            $table->string("description");
-            $table->longText("html_data");
-            $table->longText("json_data");
+            $table->string("name");
+            $table->string("job");
+            $table->bigInteger("salary");
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('documents');
+        Schema::dropIfExists('testings');
     }
 };

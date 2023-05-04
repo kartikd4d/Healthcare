@@ -29,22 +29,25 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/admin/dashboard',[App\Http\Controllers\Admin\DashboardController::class,'AdminDashboard']);
 
-Route::post('/document',[App\Http\Controllers\Admin\DocumentController::class,'CreateDocument']);
-
-Route::post('/module',[App\Http\Controllers\Admin\ModuleController::class,'createmodule']);
-Route::get('/module/list',[App\Http\Controllers\Admin\ModuleController::class,'Modulelist']);
-Route::get('/module/edit',[App\Http\Controllers\Admin\ModuleController::class,'Moduleedit']);
-Route::put('/module/update',[App\Http\Controllers\Admin\ModuleController::class,'Moduleupdate']);
-Route::get('/module/delete/{id}',[App\Http\Controllers\Admin\ModuleController::class,'DeleteModule']);
-
-
-
-Route::post('/module/file',[App\Http\Controllers\Admin\ModuleFileController::class,'ModuleFile']);
-
 Route::post('/product',[App\Http\Controllers\Admin\ProductController::class,'Createproduct']);
 Route::get('/product/list',[App\Http\Controllers\Admin\ProductController::class,'Productlist']);
 Route::put('/product/update',[App\Http\Controllers\Admin\ProductController::class,'Productupdate']);
 Route::delete('/product/delete/{id}',[App\Http\Controllers\Admin\ProductController::class,'DeleteProduct']);
+
+Route::post('/module',[App\Http\Controllers\Admin\ModuleController::class,'createmodule']);
+Route::get('/module/list',[App\Http\Controllers\Admin\ModuleController::class,'Modulelist']);
+// Route::get('/module/edit',[App\Http\Controllers\Admin\ModuleController::class,'Moduleedit']);
+Route::put('/module/update',[App\Http\Controllers\Admin\ModuleController::class,'Moduleupdate']);
+Route::delete('/module/delete/{id}',[App\Http\Controllers\Admin\ModuleController::class,'DeleteModule']);
+
+Route::post('/document',[App\Http\Controllers\Admin\DocumentController::class,'CreateDocument']);
+Route::get('/document/list',[App\Http\Controllers\Admin\DocumentController::class,'Documentlist']);
+Route::get('/document/edit',[App\Http\Controllers\Admin\DocumentController::class,'Documentedit']);
+Route::put('/document/update',[App\Http\Controllers\Admin\DocumentController::class,'Documentupdate']);
+
+
+Route::post('/module/file',[App\Http\Controllers\Admin\ModuleFileController::class,'ModuleFile']);
+
 
 
 Route::get('/book-call-list',[App\Http\Controllers\Admin\BookcallController::class,'Bookcalllist']);
@@ -75,6 +78,8 @@ Route::post('/checklist/details',[App\Http\Controllers\Client\ChecklistControlle
 Route::post('/services/qualification',[App\Http\Controllers\Client\ChecklistController::class,'ServiceQualification']);
 Route::post('/suitablility',[App\Http\Controllers\Client\ChecklistController::class,'Suitablility']);
 Route::post('/declaration',[App\Http\Controllers\Client\ChecklistController::class,'Declaration']);
+Route::get('/testing',[App\Http\Controllers\TestingController::class,'testing']);
+
 
 
 

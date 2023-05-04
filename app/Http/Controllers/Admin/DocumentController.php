@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Documents;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DocumentController extends Controller
 {
@@ -13,37 +14,37 @@ class DocumentController extends Controller
         // return $req->all();  
         try {
             $this->validate($req, [
-                'module_id' => 'required',
-                'document_title' => 'required',
+                'id' => 'required',
+                'title' => 'required',
                 'description' => 'required',
-                'file' => 'required',
-                'file.*' => 'mimes:doc,pdf,docx,zip,png,jpge,jpg'
+                
             ]);
 
             $fileModel = new Documents;
-            $fileModel->module_id = $req->module_id;
-            $fileModel->document_title = $req->document_title;
+            $fileModel->module_id = $req->id;
+            $fileModel->document_title = $req->title;
             $fileModel->description = $req->description;
-
-            if ($req->file()) {
-                $fileName = time() . '_' . $req->file->getClientOriginalName();
-                $filePath = $req->file('file')->storeAs('uploads', $fileName, 'public');
-                // $fileModel->name = time().'_'.$req->file->getClientOriginalName();
-                $fileModel->file = '/storage/' . $filePath;
-            }
+            $fileModel->html_data=$req->html;
+            $fileModel->json_data=json_encode($req->jsondata);
+            // if ($req->file()) {
+            //     $fileName = time() . '_' . $req->file->getClientOriginalName();
+            //     $filePath = $req->file('file')->storeAs('uploads', $fileName, 'public');
+            //     // $fileModel->name = time().'_'.$req->file->getClientOriginalName();
+            //     $fileModel->file = '/storage/' . $filePath;
+            // }
 
             $result = $fileModel->save();
             if ($result) {
                 return response()->json([
                     "status" => true,
                     "code" => 200,
-                    "message" => "record submitted",
+                    "message" => "create document successfully",
                     "result" => $result
                 ]);
             } else {
                 return response()->json([
                     "status" => true,
-                    "code" => 200,
+                    "code" => 400,
                     "message" => "something went wrong",
                     "result" => null
                 ]);
@@ -85,8 +86,87 @@ class DocumentController extends Controller
 
 
     }
+public function Documentlist(Request $req){
+    try{ 
+    $data= Documents::where("module_id",$req->module_id)->get();
+    if ($data) {
+        return response()->json([
+            "message" => "Documentlist show successfully",
+            "success" => true,
+            'data' => $data,
+        ], 200);
+    } else {
+        return response()->json([
+            'message' => 'Credentials are wrong',
+            "success" => false,
+            'data' => null,
+        ], 400);
+    }
+    }catch(\Exception $ex){
+    return response()->json([
+        "message"=>"Document list request failed",
+        "error"=>$req->message()
+    ],500);
+    }
+}
+
+public function Documentedit(Request $req){
+    try{ 
+    $data= Documents::where("id",$req->id)->get();
+    if ($data) {
+        return response()->json([
+            "message" => "Document edit show successfully",
+            "success" => true,
+            'data' => $data,
+        ], 200);
+    } else {
+        return response()->json([
+            'message' => 'Credentials are wrong',
+            "success" => false,
+            'data' => null,
+        ], 400);
+    }
+    }catch(\Exception $ex){
+    return response()->json([
+        "message"=>"Document edit request failed",
+        "error"=>$req->message()
+    ],500);
+    }
+}
+public function Documentupdate(Request $req)
+    {
+    
+        try {
+        //    return $req;
+            $fileModel = Documents::find($req->id);
+            $fileModel->document_title = $req->title;
+            $fileModel->description = $req->description;
+            $fileModel->html_data=$req->html;
+            $fileModel->json_data=json_encode($req->jsondata);          
+            $result = $fileModel->save();
+            if ($result) {
+                return response()->json([
+                    "status" => true,
+                    "code" => 200,
+                    "message" => "Update document successfully",
+                    "result" => $result
+                ]);
+            } else {
+                return response()->json([
+                    "status" => true,
+                    "code" => 400,
+                    "message" => "something went wrong",
+                    "result" => null
+                ]);
+            }
 
 
-
+        } catch (\Exception $ex) {
+            return response()->json([
+                "message" => "internal server error",
+                "result"=> $ex->getMessage()
+            ], 500);
+        }
+    }
     
 }
