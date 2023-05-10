@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('checklist_details', function (Blueprint $table) {
+        Schema::create('welcomebanners', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger("product_id");
-            $table->string("title");
-            $table->longText("json_data");
-            $table->enum("status",['true','false']);
+            $table->string('title');
+            $table->string('file_name');
+            $table->decimal('file_size');
+            $table->string('file_path');
+            $table->enum('status',['true','false']);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('checklist_details');
+        Schema::dropIfExists('welcomebanners');
     }
 };

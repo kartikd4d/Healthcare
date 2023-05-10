@@ -42,6 +42,7 @@ class LoginController extends Controller
                 // generating the token for specific user
                 $success["token"] = $user->createToken('remember_token')->plainTextToken;
                 // return Str::random(64);
+                $success['user_id'] = $user->id;
                 $success['name'] = $user->name;
                 $success['email'] = $user->email;
                 $success['role'] = $user->role_id;

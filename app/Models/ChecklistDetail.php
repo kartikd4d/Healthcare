@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ChecklistDetail extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        "product_id",
+        "title",
+        "status",
+        "json_data"
+      
+    ];
 }

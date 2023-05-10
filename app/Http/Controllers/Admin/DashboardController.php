@@ -36,7 +36,7 @@ class DashboardController extends Controller
         ],200);
     }catch(\Exception $ex){
         return response()->json([
-            "message"=>"Dashboard request failed",
+            "message"=>"internal server error",
             'error' => $ex->getMessage(),
         ],500);
     }
