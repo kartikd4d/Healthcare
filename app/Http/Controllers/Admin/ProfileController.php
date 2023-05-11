@@ -47,7 +47,6 @@ class ProfileController extends Controller
             $user = User::find($id);
             $user->name = $req->name;
             $user->email = $req->email;
-            $user->password = bcrypt($req->password);
             $user->mobile_number = $req->mobile_number;
             $user->role_id = $req->role_id;
             $user->status = $req->status;

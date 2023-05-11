@@ -89,55 +89,25 @@ class UserController extends Controller
   {
     try {
 
-
+// return $req;
       $id = $req->id;
       $user = User::find($id);
       $user->name = $req->name;
       $user->email = $req->email;
-      $user->password = bcrypt($req->password);
       $user->mobile_number = $req->mobile_number;
-      $user->role_id = $req->role_id;
       $user->status = $req->status;
-      $user->save();
-
-      $update = $data = "";
-      $fetch = DB::table('businesinfos')->where("user_id", $req->id);
-      // return count($fetch->get());
-
-      if (count($fetch->get()) > 0) {
-        $update = $fetch->update([
-          "business_name" => $req->business_name,
-          "business_type" => $req->business_type,
-          "business_address" => $req->business_address,
-          "business_email" => $req->business_email,
-          "business_phone_no" => $req->business_phone_no,
-          "states_operating_in" => $req->states_operating_in,
-          "abn_name" => $req->abn_name,
-          "registered_abn_name" => $req->registered_abn_name,
-          "trading_name" => $req->trading_name
-        ]);
-
+    $result= $user->save();
+      if ($result) {
+        return response()->json([
+          "message" => "the record has updated",
+          'data' => $result,
+        ], 200);
       } else {
-        $data = Businesinfo::create([
-          "user_id" => $req->id,
-          "business_name" => $req->business_name,
-          "business_type" => $req->business_type,
-          "business_address" => $req->business_address,
-          "business_email" => $req->business_email,
-          "business_phone_no" => $req->business_phone_no,
-          "states_operating_in" => $req->states_operating_in,
-          "abn_name" => $req->abn_name,
-          "registered_abn_name" => $req->registered_abn_name,
-          "trading_name" => $req->trading_name
-        ]);
+        return response()->json([
+          "message" => "something went wrong",
+          'data' => Null,
+        ], 400);
       }
-      // if($user->wasChanged() && ($update || $data)){
-      return response()->json([
-        "status" => true,
-        "msg" => "updated successfully",
-        "code" => 200
-      ]);
-      // }else{return response()->json(["status"=>true,"msg"=>"update successfully","code"=>400]);}
 
     } catch (\Exception $ex) {
       return response()->json([
